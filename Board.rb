@@ -24,8 +24,13 @@ class Board
 
   # Writes a line on the board
   # direction = (:left | :down)
-  def write_board( x, y, direction, line )
-
+  def write_line( x, y, direction, line )
+    case direction
+    when :down
+      (line.size+x).times {|dx| write_char( x+dx, y, line[dx] )}
+    when :left
+      (line.size+y).times {|dy| write_char( x, y+dy, line[dy] )}
+    end
   end
 
   # Prints the board to STDOUT
@@ -42,8 +47,10 @@ end
 
 #test run
 b = Board.new( "board.txt" )
-b.write_char( 7, 7, "f" )
-b.write_char( 7, 8, "a" )
-b.write_char( 7, 9, "c" )
-b.write_char( 7, 10,"e" )
+b.write_char( 3, 7, "f" )
+b.write_char( 3, 8, "a" )
+b.write_char( 3, 9, "c" )
+b.write_char( 3, 10,"e" )
+b.write_line( 4, 10, :down, "scape" )
+b.write_line( 5, 11, :left, "at" )
 b.show_board
