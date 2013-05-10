@@ -15,6 +15,7 @@ class CommandLine
     @cliHelp = "Scrabble Solver Command Line Interface\n Written By Jesse Jurman\n\n"
     @cliHelp += "Write a line: \n> w x y [down | right] line \n"
     @cliHelp += "Update rack: \n> r letters\n"
+    @cliHelp += "Get words on Board: \n> g\n"
     @cliHelp += "Solve for next word: \n> s\n"
     @cliHelp += "Show these commands: \n> h\n"
     @cliHelp += "Quit the Command Line: \n> q\n"
@@ -22,6 +23,7 @@ class CommandLine
     @commands = {
       "w" => lambda { |pipe| board_write(pipe) },
       "r" => lambda { |pipe| update_rack(pipe) },
+      "g" => lambda { |pipe| get_words },
       "s" => lambda { |pipe| solve },
       "h" => lambda { |pipe| print_help },
       "q" => lambda { |pipe| cli_quit }
@@ -49,6 +51,11 @@ class CommandLine
   # update the rack with new letters from the input
   def update_rack( newLetters )
     rack << newLetters.split(" ")
+  end
+
+  # get all the words from the board
+  def get_words
+    puts @board.all_words
   end
 
   # solve using a solving algorithm

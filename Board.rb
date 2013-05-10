@@ -33,6 +33,29 @@ class Board
     end
   end
 
+  # Returns all the words generated from the board
+  #  Goes through the entire board, as a double check against bad inserts
+  def all_words
+    words = []
+    buffer = []
+    rbuffer = []
+
+    @board.size.times do |a|
+      @board[a].size.times do |b|
+        puts "a:#{a}, b:#{b}, letter:#{@board[a][b].letter}, rletter:#{@board[b][a].letter}"
+        buffer << @board[a][b].letter
+        rbuffer << @board[b][a].letter
+      end
+      words << buffer.join("").scan(/(\w{2,})/)
+      words << rbuffer.join("").scan(/(\w{2,})/)
+      buffer = []
+      rbuffer = []
+    end
+
+    return words
+
+  end
+
   # Returns a pretty string ready for STDOUT
   def show_board
     result = ""
