@@ -37,21 +37,25 @@ class Board
   #  Goes through the entire board, as a double check against bad inserts
   def all_words
     words = []
-    buffer = []
-    rbuffer = []
+    buffer = ""
+    rbuffer = ""
 
     @board.size.times do |a|
+      puts("########### #{@board[a]} ##########")
       @board[a].size.times do |b|
-        puts "a:#{a}, b:#{b}, letter:#{@board[a][b].letter}, rletter:#{@board[b][a].letter}"
         buffer << @board[a][b].letter
         rbuffer << @board[b][a].letter
       end
-      words << buffer.join("").scan(/(\w{2,})/)
-      words << rbuffer.join("").scan(/(\w{2,})/)
-      buffer = []
-      rbuffer = []
+
+      words << buffer.scan(/(\w{2,})/)
+      words << rbuffer.scan(/(\w{2,})/)
+      buffer = ""
+      rbuffer = ""
+
     end
 
+    words.delete([])
+    puts words
     return words
 
   end

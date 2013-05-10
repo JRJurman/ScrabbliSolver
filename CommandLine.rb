@@ -1,15 +1,17 @@
 require "colorize"
 require "./Board"
 require "./Tile"
+require "./LookUp"
 
 # Class to run the Command line interface
 class CommandLine
 
-  attr_accessor :board, :help, :rack, :commands
+  attr_accessor :board, :lookUp, :help, :rack, :commands
 
   # Initialize the board, rack, help prompt
   def initialize( boardFile, dictionaryFile, scrabbleSolver )
     @board = Board.new( boardFile )
+    @lookUp = LookUp.new( dictionaryFile )
     @rack = []
 
     @cliHelp = "Scrabble Solver Command Line Interface\n Written By Jesse Jurman\n\n"
@@ -17,6 +19,7 @@ class CommandLine
     @cliHelp += "Update rack: \n> r letters\n"
     @cliHelp += "Get words on Board: \n> g\n"
     @cliHelp += "Solve for next word: \n> s\n"
+    @cliHelp += "Validate check on board: \n> v\n"
     @cliHelp += "Show these commands: \n> h\n"
     @cliHelp += "Quit the Command Line: \n> q\n"
 
@@ -25,6 +28,7 @@ class CommandLine
       "r" => lambda { |pipe| update_rack(pipe) },
       "g" => lambda { |pipe| get_words },
       "s" => lambda { |pipe| solve },
+      "v" => lambda { |pipe| validate },
       "h" => lambda { |pipe| print_help },
       "q" => lambda { |pipe| cli_quit }
     }
@@ -56,6 +60,23 @@ class CommandLine
   # get all the words from the board
   def get_words
     puts @board.all_words
+  end
+
+  # compare all words on board with dictionary
+  def validate
+    if @lookUp.valid_check(@board.all_words)
+      puts "All words check out"
+    else
+      puts "Ertt... a word is invalid\nChecking list now..."
+      print @board.all_words
+      gets
+
+      @board.all_words.each do |word|
+        puts "check on #{word}:"
+        puts "result > #{@lookUp.valid_check([word])}"
+      end
+
+    end
   end
 
   # solve using a solving algorithm
