@@ -20,6 +20,7 @@ class CommandLine
     @cliHelp += "Get words on Board: \n> g\n"
     @cliHelp += "Solve for next word: \n> s\n"
     @cliHelp += "Validate check on board: \n> v\n"
+    @cliHelp += "Print the board: \n> p (true, true)\n"
     @cliHelp += "Show these commands: \n> h\n"
     @cliHelp += "Quit the Command Line: \n> q\n"
 
@@ -29,6 +30,7 @@ class CommandLine
       "g" => lambda { |pipe| get_words },
       "s" => lambda { |pipe| solve },
       "v" => lambda { |pipe| validate },
+      "p" => lambda { |pipe| print_board(pipe) },
       "h" => lambda { |pipe| print_help },
       "q" => lambda { |pipe| cli_quit }
     }
@@ -41,11 +43,19 @@ class CommandLine
   end
 
   # Print the current Board
-  def print_board
-    puts @board.show_board
+  # pipe is in the following form:
+  #   p (true, false)
+  def print_board( pipe = "p true false" )
+    spipe = pipe.split(" ")
+    spipe.delete("p")
+    spipe == [] ?  spipe = ["true", "false"] : spipe = spipe
+    puts @board.show_board( spipe[0], spipe[1])
+    puts "RACK: #{@rack.join(",")}"
   end
 
   # write a single line on the board
+  # pipe is in the folowing form:
+  #   w <x> <y> (down|right) <line> 
   def board_write( pipe )
     spipe = pipe.split(" ")
     spipe[3] == "down" ? dir = :down : dir = :right
@@ -54,7 +64,7 @@ class CommandLine
 
   # update the rack with new letters from the input
   def update_rack( newLetters )
-    rack << newLetters.split(" ")
+    rack << newLetters.split(" ").pop(newLetters.size)
   end
 
   # get all the words from the board
@@ -98,7 +108,6 @@ class CommandLine
     print "> "
     while ( (input = gets.chomp) != "q" )
       @commands[input[0]].call(input)
-      print_board
       print "> "
     end
 
