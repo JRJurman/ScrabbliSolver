@@ -19,6 +19,7 @@ class Board
   # x, y = (1..15)
   # c = (A..Z, a..z)
   def write_char( x, y, c )
+    puts "x-#{x}, y-#{y}, c-#{c}"
     @board[x][y] = Tile.new(c, "")
   end
 
@@ -27,9 +28,9 @@ class Board
   def write_line( x, y, direction, line )
     case direction
     when :down
-      (line.size+x).times {|dx| write_char( x+dx, y, line[dx] )}
+      (line.size).times {|dx| write_char( x+dx, y, line[dx] )}
     when :right
-      (line.size+y).times {|dy| write_char( x, y+dy, line[dy] )}
+      (line.size).times {|dy| write_char( x, y+dy, line[dy] )}
     end
   end
 
@@ -41,7 +42,6 @@ class Board
     rbuffer = ""
 
     @board.size.times do |a|
-      puts("########### #{@board[a]} ##########")
       @board[a].size.times do |b|
         buffer << @board[a][b].letter
         rbuffer << @board[b][a].letter
@@ -61,15 +61,21 @@ class Board
   end
 
   # Returns a pretty string ready for STDOUT
-  def show_board
+  #  pp - pretty print, default true
+  #  verbose - shows modifier, default false
+  def show_board(pp = "true", verbose = "false")
     result = ""
+    puts "pp - #{pp}; verbose - #{verbose}"
     @board.each do |tileSet|
       tileSet.each do |tile|
-        result += " #{tile.show_tile}"
+        pp == "true" ? result += " #{tile.show_tile}" : result += " #{tile.letter}"
+        verbose == "false" ? result += "" : result += "#{tile.modifier}"
       end
-      result += " \n"
+      result += "\n"
     end
+
     return result
   end
+
 
 end
