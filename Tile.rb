@@ -2,26 +2,26 @@ require "colorize"
 
 class Tile
 
-  attr_accessor :letter, :multiplier
+  attr_accessor :letter, :modifier
 
-  def initialize( letter, multiplier )
+  def initialize( letter, modifier )
     @letter = letter
-    case multiplier
+    case modifier
     when "T"
-      @multiplier = :T
+      @modifier = :T
     when "D"
-      @multiplier = :D
+      @modifier = :D
     when "t"
-      @multiplier = :t
+      @modifier = :t
     when "d"
-      @multiplier = :d
+      @modifier = :d
     else
-      @multiplier = :none
+      @modifier = :n
     end
   end
 
   def show_tile
-    case @multiplier
+    case @modifier
     when :T
       pLetter = "#".red
     when :D
