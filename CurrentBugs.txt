@@ -1,0 +1,5 @@
+BUG #01
+    r is added to the rack
+
+BUG #02
+    v fails on correct words
