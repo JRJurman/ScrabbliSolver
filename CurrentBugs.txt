@@ -1,7 +1,7 @@
 BUG #01 << FIXED
     r is added to the rack 
 
-BUG #02 
+BUG #02 << FIXED
     v fails on correct words
 
 BUG #03

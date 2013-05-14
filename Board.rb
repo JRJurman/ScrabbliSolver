@@ -55,7 +55,6 @@ class Board
     end
 
     words.delete([])
-    puts words
     return words
 
   end
