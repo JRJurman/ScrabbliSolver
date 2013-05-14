@@ -7,7 +7,7 @@ class LookUp
     @dictionaryArray = []
     f = File.open(dictionaryFile)
     f.each_line do |word|
-      @dictionaryArray << word
+      @dictionaryArray << word.chomp
     end
   end
 

@@ -15,15 +15,26 @@ class CommandLine
     @rack = []
 
     @cliHelp = "Scrabble Solver Command Line Interface\n Written By Jesse Jurman\n\n"
-    @cliHelp += "Write a line: \n> w x y [down | right] line \n"
-    @cliHelp += "Update rack: \n> r letters\n"
-    @cliHelp += "Get words on Board: \n> g\n"
-    @cliHelp += "Solve for next word: \n> s\n"
-    @cliHelp += "Validate check on board: \n> v\n"
-    @cliHelp += "Print the board: \n> p (true, true)\n"
-    @cliHelp += "Clear output: \n> c\n"
-    @cliHelp += "Show these commands: \n> h\n"
-    @cliHelp += "Quit the Command Line: \n> q\n"
+    @cliHelp += "Write a line: ".green
+    @cliHelp += ">> w x y [down | right] line \n".blue
+    @cliHelp += "Update rack: ".green
+    @cliHelp += ">> r letters\n".blue
+    @cliHelp += "Get words on Board: ".green
+    @cliHelp += ">> g\n".blue
+    @cliHelp += "Solve for next word: ".green
+    @cliHelp += ">> s\n".blue
+    @cliHelp += "Validate check on board: ".green
+    @cliHelp += ">> v\n".blue
+    @cliHelp += "Print the board: ".green
+    @cliHelp += ">> p (true, true)\n".blue
+    @cliHelp += "Clear output: ".green
+    @cliHelp += ">> c\n".blue
+    @cliHelp += "Test input: ".green
+    @cliHelp += ">> t\n".blue
+    @cliHelp += "Show these commands: ".green
+    @cliHelp += ">> h\n".blue
+    @cliHelp += "Quit the Command Line: ".green
+    @cliHelp += ">> q\n".blue
 
     @commands = {
       "w" => lambda { |pipe| board_write(pipe) },
@@ -33,6 +44,7 @@ class CommandLine
       "v" => lambda { |pipe| validate },
       "p" => lambda { |pipe| print_board(pipe) },
       "c" => lambda { |pipe| clear_screen },
+      "t" => lambda { |pipe| test_input },
       "h" => lambda { |pipe| print_help },
       "q" => lambda { |pipe| cli_quit }
     }
@@ -71,7 +83,7 @@ class CommandLine
 
   # get all the words from the board
   def get_words
-    puts @board.all_words
+    puts @board.all_words.join(", ")
   end
 
   # compare all words on board with dictionary
@@ -81,7 +93,6 @@ class CommandLine
     else
       puts "Ertt... a word is invalid\nChecking list now..."
       print @board.all_words
-      gets
 
       @board.all_words.each do |word|
         puts "check on #{word}:"
@@ -99,6 +110,15 @@ class CommandLine
 
   # solve using a solving algorithm
   def next_solve
+  end
+
+  # test input for debugging
+  def test_input
+    board_write("w 7 7 right NOWHERE")
+    board_write("w 6 8 down YOUNG")
+    board_write("w 10 4 right TONIGHT")
+    board_write("w 7 4 down FAST")
+    board_write("w 7 5 down AS")
   end
 
   # quit the application

@@ -4,5 +4,5 @@ BUG #01 << FIXED
 BUG #02 << FIXED
     v fails on correct words
 
-BUG #03
+BUG #03 << FIXED
     g generates words twice

@@ -55,6 +55,7 @@ class Board
     end
 
     words.delete([])
+    words = words.join(", ").split(", ")
     return words
 
   end
