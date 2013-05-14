@@ -50,7 +50,7 @@ class CommandLine
     spipe.delete("p")
     spipe == [] ?  spipe = ["true", "false"] : spipe = spipe
     puts @board.show_board( spipe[0], spipe[1])
-    puts "RACK: #{@rack.join(",")}"
+    puts "RACK: #{@rack.join(",")}".yellow
   end
 
   # write a single line on the board
@@ -64,7 +64,7 @@ class CommandLine
 
   # update the rack with new letters from the input
   def update_rack( newLetters )
-    rack << newLetters.split(" ").pop(newLetters.size)
+    @rack << newLetters.split(" ").pop(newLetters.size/2)
   end
 
   # get all the words from the board
@@ -107,7 +107,7 @@ class CommandLine
 
     print "> "
     while ( (input = gets.chomp) != "q" )
-      @commands[input[0]].call(input)
+      @commands[input[0]].call(input) if @commands.has_key?(input[0]) 
       print "> "
     end
 

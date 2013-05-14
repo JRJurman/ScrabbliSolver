@@ -68,7 +68,7 @@ class Board
     puts "pp - #{pp}; verbose - #{verbose}"
     @board.each do |tileSet|
       tileSet.each do |tile|
-        pp == "true" ? result += " #{tile.show_tile}" : result += " #{tile.letter}"
+        pp == "true" ? result += " #{tile.show_tile}" : result += " #{tile.value}"
         verbose == "false" ? result += "" : result += "#{tile.modifier}"
       end
       result += "\n"
