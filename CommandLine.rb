@@ -113,10 +113,10 @@ class CommandLine
     print_help
     print_board
 
-    print "> "
+    print ">> "
     while ( (input = gets.chomp) != "q" )
       @commands[input[0]].call(input) if @commands.has_key?(input[0]) 
-      print "> "
+      print ">> "
     end
 
   end
