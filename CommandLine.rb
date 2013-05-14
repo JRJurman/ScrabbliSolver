@@ -21,6 +21,7 @@ class CommandLine
     @cliHelp += "Solve for next word: \n> s\n"
     @cliHelp += "Validate check on board: \n> v\n"
     @cliHelp += "Print the board: \n> p (true, true)\n"
+    @cliHelp += "Clear output: \n> c\n"
     @cliHelp += "Show these commands: \n> h\n"
     @cliHelp += "Quit the Command Line: \n> q\n"
 
@@ -31,6 +32,7 @@ class CommandLine
       "s" => lambda { |pipe| solve },
       "v" => lambda { |pipe| validate },
       "p" => lambda { |pipe| print_board(pipe) },
+      "c" => lambda { |pipe| clear_screen },
       "h" => lambda { |pipe| print_help },
       "q" => lambda { |pipe| cli_quit }
     }
@@ -88,6 +90,12 @@ class CommandLine
 
     end
   end
+
+  # clear the output on the screen
+  def clear_screen
+    print `clear`
+  end
+
 
   # solve using a solving algorithm
   def next_solve
