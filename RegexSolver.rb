@@ -1,10 +1,14 @@
 class RegexSolver
-  def initialize(board, rack=[])
+
+  def initialize(scrabbBoard, rack=[], wordLookUp)
 
     buffer = ""
     rbuffer = ""
+
+    # array of valid rows and columns to write on
     @regexArray = []
-    boardArray = board.board
+
+    boardArray = scrabbBoard.board
 
     boardArray.size.times do |row|
       boardArray[row].size.times do |col|
@@ -20,8 +24,20 @@ class RegexSolver
     end
 
     @regexArray.delete(" "*15)
-    #print( @regexArray.join(",\n") )
-    solve
+    @regexArray.delete("")
+    #puts @regexArray.join(",\n")
+    #puts @regexArray 
+
+    perArray = rack + @regexArray.join('').split('')
+    perArray = perArray.uniq
+    puts perArray
+
+    # dictionary of words that can be made with the
+    # given board and rack
+    @perLookUp = wordLookUp.genSubset(perArray)
+    puts @perLookUp
+
+    #solve
 
   end
 

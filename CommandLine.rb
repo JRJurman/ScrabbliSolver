@@ -116,7 +116,7 @@ class CommandLine
 
   # solve using a solving algorithm
   def next_solve
-    rs = RegexSolver.new(@board)
+    rs = RegexSolver.new(@board, @rack, @lookUp)
   end
 
   # test input for debugging
