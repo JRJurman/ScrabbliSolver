@@ -84,7 +84,7 @@ class CommandLine
 
   # update the rack with new letters from the input
   def update_rack( newLetters )
-    @rack << newLetters.split(" ").pop(newLetters.size/2)
+    @rack += newLetters.split(" ").pop(newLetters.size/2)
   end
 
   # get all the words from the board
