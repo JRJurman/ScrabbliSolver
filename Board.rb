@@ -5,12 +5,13 @@ require "./Tile.rb"
 class Board
   attr_accessor :board
 
-  # Creates a new board, reads in from a txt file
+  # Creates a new board, reads in from an ASCII txt file
   # and generates a 2 dimensional array
   def initialize( boardFile )
     @board = [[]]
     f = File.open( boardFile )
     f.each_char do |c|
+      # write empty tiles to the board, newlines indicate another row
       c != "\n" ? @board[@board.size()-1] << Tile.new(" ", c) : @board << []
     end
   end
@@ -38,8 +39,8 @@ class Board
   #  Goes through the entire board, as a double check against bad inserts
   def all_words
     words = []
-    buffer = ""
-    rbuffer = ""
+    buffer = "" #buffer that reads horizontally
+    rbuffer = "" #buffer that reads vertically
 
     @board.size.times do |a|
       @board[a].size.times do |b|
@@ -68,8 +69,13 @@ class Board
     puts "pp - #{pp}; verbose - #{verbose}"
     @board.each do |tileSet|
       tileSet.each do |tile|
+
+        # show characters or values
         pp == "true" ? result += " #{tile.show_tile}" : result += " #{tile.value}"
+
+        # show the modifer as a character
         verbose == "false" ? result += "" : result += "#{tile.modifier}"
+
       end
       result += "\n"
     end

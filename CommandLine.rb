@@ -2,6 +2,7 @@ require "colorize"
 require "./Board"
 require "./Tile"
 require "./LookUp"
+require "./RegexSolver"
 
 # Class to run the Command line interface
 class CommandLine
@@ -10,10 +11,14 @@ class CommandLine
 
   # Initialize the board, rack, help prompt
   def initialize( boardFile, dictionaryFile, scrabbleSolver )
+    # board with the working tiles
     @board = Board.new( boardFile )
+    # array of all availble words
     @lookUp = LookUp.new( dictionaryFile )
+    # player's available tiles
     @rack = []
 
+    # writes our command line help and explanation of availble commands
     @cliHelp = "Scrabble Solver Command Line Interface\n Written By Jesse Jurman\n\n"
     @cliHelp += "Write a line: ".green
     @cliHelp += ">> w x y [down | right] line \n".blue
@@ -36,11 +41,12 @@ class CommandLine
     @cliHelp += "Quit the Command Line: ".green
     @cliHelp += ">> q\n".blue
 
+    # command hash, which takes input and runs methods
     @commands = {
       "w" => lambda { |pipe| board_write(pipe) },
       "r" => lambda { |pipe| update_rack(pipe) },
       "g" => lambda { |pipe| get_words },
-      "s" => lambda { |pipe| solve },
+      "s" => lambda { |pipe| next_solve },
       "v" => lambda { |pipe| validate },
       "p" => lambda { |pipe| print_board(pipe) },
       "c" => lambda { |pipe| clear_screen },
@@ -51,9 +57,9 @@ class CommandLine
 
   end
 
-  # Print the help screen.. in GREEN!
+  # Print the help screen... in COLOR!
   def print_help
-    puts @cliHelp.green
+    puts @cliHelp
   end
 
   # Print the current Board
@@ -110,6 +116,7 @@ class CommandLine
 
   # solve using a solving algorithm
   def next_solve
+    rs = RegexSolver.new(@board)
   end
 
   # test input for debugging
