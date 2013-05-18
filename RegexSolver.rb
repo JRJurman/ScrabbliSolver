@@ -2,6 +2,8 @@ class RegexSolver
 
   def initialize(scrabbBoard, rack=[], wordLookUp)
 
+    @rack = rack
+
     buffer = ""
     rbuffer = ""
 
@@ -25,19 +27,19 @@ class RegexSolver
 
     @regexArray.delete(" "*15)
     @regexArray.delete("")
-    #puts @regexArray.join(",\n")
+    puts @regexArray.join("\n")
     #puts @regexArray 
 
     perArray = rack + @regexArray.join('').split('')
     perArray = perArray.uniq
-    puts perArray
+    #puts perArray
 
     # dictionary of words that can be made with the
     # given board and rack
     @perLookUp = wordLookUp.genSubset(perArray)
-    puts @perLookUp
+    #puts @perLookUp
 
-    #solve
+    solve
 
   end
 
@@ -46,13 +48,25 @@ class RegexSolver
     # prep each line for regex comparison
 
     @regexArray.each do |line|
-      # grab begining spaces
+      # generate regex to compare dictionary with
       begSpace = line.match(/^\s*/).to_s.size
       endSpace = line.match(/\s*$/).to_s.size
       characters = line.gsub(/^\s*/, "").gsub(/\s*$/, "").gsub(" ", ".").to_s
 
-      matcher = ".{0,#{begSpace}}#{characters}.{0,#{endSpace}}"
+      matcher = "^.{0,#{begSpace}}#{characters}.{0,#{endSpace}}$"
+      matcher.gsub!(".", "[#{@rack.join()}]")
       puts matcher
+
+      sols = []
+      @perLookUp.each do |word|
+        if word.match(/#{matcher}/)
+          sols << word
+        end
+      end
+      puts sols
+
+      print "... "
+      gets
 
     end
 
